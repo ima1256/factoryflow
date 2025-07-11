@@ -52,7 +52,7 @@ export default function MachineDetailsModal({ machine, onClose }: Props) {
           component="h2"
           mb={2}
         >
-          {machine.name} - Detalles
+          {machine.name}
         </Typography>
 
         <Typography>
@@ -109,7 +109,7 @@ export default function MachineDetailsModal({ machine, onClose }: Props) {
             <Box component="ul" sx={{ pl: 3, mb: 0 }}>
               {machine.errorLogs.map((log, i) => (
                 <li key={i}>
-                  <Typography color="error.main">{log}</Typography>
+                  <Typography color="error.main">{log.message}</Typography>
                 </li>
               ))}
             </Box>
