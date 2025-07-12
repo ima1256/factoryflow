@@ -28,6 +28,10 @@ interface FilterSectionProps {
   locationFilter: string;
   setLocationFilter: (value: string) => void;
   locationOptions: string[];
+  sortBy: string;
+  setSortBy: (value: string) => void;
+  sortDirection: "asc" | "desc";
+  setSortDirection: (value: "asc" | "desc") => void;
 }
 
 export default function FilterSection({
@@ -40,16 +44,21 @@ export default function FilterSection({
   locationFilter,
   setLocationFilter,
   locationOptions,
+  sortBy,
+  setSortBy,
+  sortDirection,
+  setSortDirection,
 }: FilterSectionProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const renderFilters = (
     <Box
       sx={{
         display: "flex",
-        flexDirection: isMobile ? "column" : "row",
+        flexDirection: isTablet ? "column" : "row",
         flexWrap: "wrap",
         gap: 2,
         px: 1,
@@ -97,6 +106,37 @@ export default function FilterSection({
         )}
       />
 
+      <FormControl>
+        <InputLabel id="sort-by-label">Ordenar por</InputLabel>
+        <Select
+          labelId="sort-by-label"
+          value={sortBy}
+          label="Ordenar por"
+          sx={{ minWidth: 200 }}
+          onChange={(e) => setSortBy(e.target.value)}
+        >
+          <MenuItem value="temperature">Temperatura</MenuItem>
+          <MenuItem value="uptimeHours">Horas de uso</MenuItem>
+          <MenuItem value="lastMaintenance">Último mantenimiento</MenuItem>
+          <MenuItem value="energyConsumption">Consumo energético</MenuItem>
+          <MenuItem value="name">Nombre</MenuItem>
+        </Select>
+      </FormControl>
+
+      <FormControl>
+        <InputLabel id="sort-dir-label">Ordernar</InputLabel>
+        <Select
+          labelId="sort-dir-label"
+          value={sortDirection}
+          label="Dirección"
+          sx={{ minWidth: 200 }}
+          onChange={(e) => setSortDirection(e.target.value)}
+        >
+          <MenuItem value="asc">Ascendente</MenuItem>
+          <MenuItem value="desc">Descendente</MenuItem>
+        </Select>
+      </FormControl>
+
       {/* <Button
         variant="contained"
         color="primary"
@@ -108,23 +148,23 @@ export default function FilterSection({
   );
 
   return (
-    <Box sx={{ mb: 4 }}>
-      {isMobile ? (
+    <Box>
+      {isTablet ? (
         <>
           <IconButton onClick={() => setDrawerOpen(true)}>
-            <FilterListIcon />
+            <FilterListIcon sx={{ fontSize: 40 }} />
           </IconButton>
           <Drawer
             anchor="right"
             open={drawerOpen}
             onClose={() => setDrawerOpen(false)}
           >
-            {/* <Box sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>
+            <Box sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>
               <IconButton onClick={() => setDrawerOpen(false)}>
                 <CloseIcon />
               </IconButton>
-            </Box> */}
-            <div className="p-4">{renderFilters}</div>
+            </Box>
+            <div className="pb-4 pl-4 pr-4">{renderFilters}</div>
           </Drawer>
         </>
       ) : (

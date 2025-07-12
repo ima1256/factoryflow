@@ -5,13 +5,29 @@ import type { Machine } from "../data/machines";
 
 import FilterSection from "../components/FilterSection";
 
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
+  Stack,
+} from "@mui/material";
+
 export default function Machines() {
   const [machines, setMachines] = useState<Machine[]>([]);
+
+  //filters
   const [statusFilter, setStatusFilter] = useState("");
   const [technicianFilter, setTechnicianFilter] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  //sorting
+  const [sortBy, setSortBy] = useState("name");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -62,17 +78,24 @@ export default function Machines() {
 
   return (
     <div className="ml-4 mr-4 mb-4">
-      <FilterSection
-        statusFilter={statusFilter}
-        setStatusFilter={setStatusFilter}
-        technicianFilter={technicianFilter}
-        setTechnicianFilter={setTechnicianFilter}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        locationFilter={locationFilter}
-        setLocationFilter={setLocationFilter}
-        locationOptions={locationOptions}
-      />
+      <Stack sx={{ mb: 4, gap: 4, display: "flex", direction: "column" }}>
+        <FilterSection
+          statusFilter={statusFilter}
+          setStatusFilter={setStatusFilter}
+          technicianFilter={technicianFilter}
+          setTechnicianFilter={setTechnicianFilter}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          locationFilter={locationFilter}
+          setLocationFilter={setLocationFilter}
+          locationOptions={locationOptions}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          sortDirection={sortDirection}
+          setSortDirection={setSortDirection}
+        />
+      </Stack>
+
       <div className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {filteredMachines.map((machine) => (
           <MachineCard key={machine.id} machine={machine} />

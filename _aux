@@ -16,6 +16,56 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 
+<Box
+  sx={{
+    maxHeight: 400,
+    overflowY: 'scroll',
+    scrollbarWidth: 'none', // Firefox
+    '&::-webkit-scrollbar': {
+      display: 'none',       // Chrome, Safari
+    },
+  }}
+></Box>
+
+<Box
+  sx={{
+    position: 'relative',
+    maxHeight: 400,
+    overflowY: 'auto',
+    pr: 1,
+    scrollbarWidth: 'none', // Firefox
+    '&::-webkit-scrollbar': {
+      display: 'none',       // Chrome, Safari
+    },
+  }}
+>
+  {/* Contenido scrollable */}
+  <Stack spacing={1}>
+    {/* <Detail /> components aquí */}
+  </Stack>
+
+  {/* Difuminado visual abajo */}
+  <Box
+    sx={{
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      height: 40,
+      pointerEvents: 'none', // permite seguir haciendo scroll
+      background: 'linear-gradient(to top, white, transparent)',
+    }}
+  />
+</Box>
+
+<Typography>
+  <strong>Técnico responsable:</strong>{" "}
+  <Box component="span" sx={{ display: "inline" }}>
+    {machine.technician.name} ({machine.technician.email},{" "}
+    {machine.technician.phone})
+  </Box>
+</Typography>;
+
 interface FilterSectionProps {
   statusFilter: string;
   setStatusFilter: (value: string) => void;
@@ -201,3 +251,30 @@ export default function FilterSection({
     </Box>
   )}
 </Box>;
+
+const [sortBy, setSortBy] = useState("name"); // criterio por defecto
+const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+
+
+
+
+<FormControl sx={{ minWidth: 200 }}>
+  <InputLabel id="sort-by-label">Ordenar por</InputLabel>
+  <Select
+    labelId="sort-by-label"
+    value={sortBy}
+    label="Ordenar por"
+    onChange={(e) => setSortBy(e.target.value)}
+  >
+    <MenuItem value="temperature">Temperatura</MenuItem>
+    <MenuItem value="uptimeHours">Horas de uso</MenuItem>
+    <MenuItem value="lastMaintenance">Último mantenimiento</MenuItem>
+    <MenuItem value="energyConsumption">Consumo energético</MenuItem>
+    <MenuItem value="name">Nombre</MenuItem>
+  </Select>
+</FormControl>
+
+
+
+
+
