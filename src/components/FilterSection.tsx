@@ -8,7 +8,6 @@ import {
   Autocomplete,
   useTheme,
   useMediaQuery,
-  Button,
   IconButton,
   Drawer,
 } from "@mui/material";
@@ -50,7 +49,7 @@ export default function FilterSection({
   setSortDirection,
 }: FilterSectionProps) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  // const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const [drawerOpen, setDrawerOpen] = useState(false);
 

@@ -6,11 +6,11 @@ import type { Machine } from "../data/machines";
 import FilterSection from "../components/FilterSection";
 
 import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Box,
+  // FormControl,
+  // InputLabel,
+  // Select,
+  // MenuItem,
+  // Box,
   Stack,
 } from "@mui/material";
 
