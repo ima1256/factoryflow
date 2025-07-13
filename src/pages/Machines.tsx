@@ -5,14 +5,38 @@ import type { Machine } from "../data/machines";
 
 import FilterSection from "../components/FilterSection";
 
-import {
-  // FormControl,
-  // InputLabel,
-  // Select,
-  // MenuItem,
-  // Box,
-  Stack,
-} from "@mui/material";
+import { Stack } from "@mui/material";
+import eventBus from "../../eventBus";
+
+type SortOrder = "asc" | "desc";
+
+function machineSort<Machine>(
+  array: Machine[],
+  key: keyof Machine,
+  order: SortOrder = "asc"
+): Machine[] {
+  return [...array].sort((a, b) => {
+    const aVal = a[key];
+    const bVal = b[key];
+
+    if (aVal == null && bVal != null) return order === "asc" ? 1 : -1;
+    if (aVal != null && bVal == null) return order === "asc" ? -1 : 1;
+    if (aVal == null && bVal == null) return 0;
+
+    if (typeof aVal === "string" && typeof bVal === "string") {
+      return order === "asc"
+        ? aVal.localeCompare(bVal)
+        : bVal.localeCompare(aVal);
+    }
+
+    const aNum =
+      typeof aVal === "number" ? aVal : new Date(aVal as any).getTime();
+
+    const bNum =
+      typeof bVal === "number" ? bVal : new Date(bVal as any).getTime();
+    return order === "asc" ? aNum - bNum : bNum - aNum;
+  });
+}
 
 export default function Machines() {
   const [machines, setMachines] = useState<Machine[]>([]);
@@ -25,8 +49,8 @@ export default function Machines() {
   const [searchTerm, setSearchTerm] = useState("");
 
   //sorting
-  const [sortBy, setSortBy] = useState("name");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [sortBy, setSortBy] = useState<keyof Machine>("name");
+  const [sortDirection, setSortDirection] = useState<SortOrder>("asc");
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,6 +78,24 @@ export default function Machines() {
     setLocationOptions(locations);
   }, [machines]);
 
+  useEffect(() => {
+    const handler = (updatedMachine: Machine) => {
+      console.log("Máquina actualizada", updatedMachine);
+
+      setMachines((prevMachines) =>
+        prevMachines.map((m) =>
+          m.id === updatedMachine.id ? updatedMachine : m
+        )
+      );
+    };
+
+    eventBus.on("updateMachine", handler);
+
+    return () => {
+      eventBus.off("updateMachine", handler);
+    };
+  });
+
   const filteredMachines = machines.filter((machine) => {
     const matchesStatus = !statusFilter || machine.status === statusFilter;
     const matchesTechnician =
@@ -72,6 +114,8 @@ export default function Machines() {
       matchesStatus && matchesTechnician && matchesSearch && matchesLocation
     );
   });
+
+  const sortedMachines = machineSort(filteredMachines, sortBy, sortDirection);
 
   if (loading) return <p className="m-4">Cargando máquinas...</p>;
   if (error) return <p className="m-4 text-red-600">{error}</p>;
@@ -97,7 +141,7 @@ export default function Machines() {
       </Stack>
 
       <div className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {filteredMachines.map((machine) => (
+        {sortedMachines.map((machine) => (
           <MachineCard key={machine.id} machine={machine} />
         ))}
       </div>

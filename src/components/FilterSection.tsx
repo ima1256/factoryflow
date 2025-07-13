@@ -12,6 +12,7 @@ import {
   Drawer,
 } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import type { Machine } from "../data/machines";
 
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -27,8 +28,8 @@ interface FilterSectionProps {
   locationFilter: string;
   setLocationFilter: (value: string) => void;
   locationOptions: string[];
-  sortBy: string;
-  setSortBy: (value: string) => void;
+  sortBy: keyof Machine;
+  setSortBy: (value: keyof Machine) => void;
   sortDirection: "asc" | "desc";
   setSortDirection: (value: "asc" | "desc") => void;
 }

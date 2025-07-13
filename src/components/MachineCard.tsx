@@ -1,9 +1,14 @@
 import type { Machine } from "../data/machines";
 import { useState } from "react";
 import MachineDetailsModal from "./MachineDetailsModal";
+import EditMachine from "./EditMachine";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { IconButton } from "@mui/material";
 
 export default function MachineCard({ machine }: { machine: Machine }) {
   const [open, setOpen] = useState(false);
+
+  const [editOpen, setEditOpen] = useState(false);
 
   const statusColor = {
     working: "bg-green-100 text-green-800",
@@ -19,9 +24,32 @@ export default function MachineCard({ machine }: { machine: Machine }) {
 
   return (
     <>
-      <div className="bg-white shadow-lg rounded-xl p-5 space-y-3 hover:shadow-xl transition-shadow duration-300">
-        <h2 className="text-xl font-bold text-gray-900">{machine.name}</h2>
+      <div className="relative bg-white shadow-lg rounded-xl p-5 space-y-3 hover:shadow-xl transition-shadow duration-300">
+        <div className="max-w-[80%]">
+          <h2
+            className="text-xl font-bold text-gray-900 line-clamp-2 break-words"
+            title={machine.name}
+          >
+            {machine.name}
+          </h2>
+        </div>
 
+        {/* <div className="max-w-md">
+          <h2
+            className="text-xl font-bold line-clamp-2 max-w-full"
+            title={longText}
+          >
+            {longText}
+          </h2>
+        </div> */}
+
+        <IconButton
+          onClick={() => setEditOpen(true)}
+          aria-label="Editar Máquina"
+          sx={{ position: "absolute", top: 18, right: 14 }}
+        >
+          <SettingsIcon />
+        </IconButton>
         <div
           className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${statusColor}`}
         >
@@ -59,9 +87,18 @@ export default function MachineCard({ machine }: { machine: Machine }) {
       </div>
 
       {/* Modal */}
-      {open && (
-        <MachineDetailsModal machine={machine} onClose={() => setOpen(false)} />
-      )}
+
+      <MachineDetailsModal
+        machine={machine}
+        onClose={() => setOpen(false)}
+        open={open}
+      />
+
+      <EditMachine
+        machine={machine}
+        onClose={() => setEditOpen(false)}
+        open={editOpen}
+      />
     </>
   );
 }

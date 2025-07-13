@@ -1,280 +1,90 @@
-import {
-  Box,
-  Drawer,
-  IconButton,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField,
-  Autocomplete,
-  useTheme,
-  useMediaQuery,
-  Button,
-} from "@mui/material";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
-
-<Box
-  sx={{
-    maxHeight: 400,
-    overflowY: 'scroll',
-    scrollbarWidth: 'none', // Firefox
-    '&::-webkit-scrollbar': {
-      display: 'none',       // Chrome, Safari
-    },
-  }}
-></Box>
-
-<Box
-  sx={{
-    position: 'relative',
-    maxHeight: 400,
-    overflowY: 'auto',
-    pr: 1,
-    scrollbarWidth: 'none', // Firefox
-    '&::-webkit-scrollbar': {
-      display: 'none',       // Chrome, Safari
-    },
-  }}
+<div
+  className="{`inline-block"
+  px-3
+  py-1
+  rounded-full
+  text-sm
+  font-semibold
+  ${statusColor}
+  max-w-[150px]
+  overflow-hidden
+  whitespace-nowrap
+  text-ellipsis`}
 >
-  {/* Contenido scrollable */}
-  <Stack spacing={1}>
-    {/* <Detail /> components aquí */}
-  </Stack>
+  {machine.status.toUpperCase()}
+</div>
 
-  {/* Difuminado visual abajo */}
-  <Box
-    sx={{
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      height: 40,
-      pointerEvents: 'none', // permite seguir haciendo scroll
-      background: 'linear-gradient(to top, white, transparent)',
-    }}
-  />
-</Box>
+npm install -D @tailwindcss/line-clamp
 
-<Typography>
-  <strong>Técnico responsable:</strong>{" "}
-  <Box component="span" sx={{ display: "inline" }}>
-    {machine.technician.name} ({machine.technician.email},{" "}
-    {machine.technician.phone})
-  </Box>
-</Typography>;
-
-interface FilterSectionProps {
-  statusFilter: string;
-  setStatusFilter: (value: string) => void;
-  technicianFilter: string;
-  setTechnicianFilter: (value: string) => void;
-  searchTerm: string;
-  setSearchTerm: (value: string) => void;
-  locationFilter: string;
-  setLocationFilter: (value: string) => void;
-  locationOptions: string[];
-}
-
-export default function FilterSection({
-  statusFilter,
-  setStatusFilter,
-  technicianFilter,
-  setTechnicianFilter,
-  searchTerm,
-  setSearchTerm,
-  locationFilter,
-  setLocationFilter,
-  locationOptions,
-}) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const renderFilters = (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-        p: 2,
-        width: 250,
-      }}
-    >
-      <FormControl>
-        <InputLabel id="status-label">Status</InputLabel>
-        <Select
-          labelId="status-label"
-          value={statusFilter}
-          label="Status"
-          onChange={(e) => setStatusFilter(e.target.value)}
-        >
-          <MenuItem value="">Todos</MenuItem>
-          <MenuItem value="working">Working</MenuItem>
-          <MenuItem value="idle">Idle</MenuItem>
-          <MenuItem value="error">Error</MenuItem>
-        </Select>
-      </FormControl>
-
-      <TextField
-        label="Filtrar por Técnico"
-        variant="outlined"
-        value={technicianFilter}
-        onChange={(e) => setTechnicianFilter(e.target.value)}
-      />
-
-      <TextField
-        label="Filtrar por Máquina"
-        variant="outlined"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-
-      <Autocomplete
-        options={locationOptions}
-        value={locationFilter}
-        onChange={(_, newValue) => setLocationFilter(newValue || "")}
-        renderInput={(params) => (
-          <TextField {...params} label="Ubicación" variant="outlined" />
-        )}
-      />
-
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => setDrawerOpen(false)}
-      >
-        Aplicar filtros
-      </Button>
-    </Box>
-  );
+function Example() {
+  const longText =
+    "Esto es un texto muy largo que debería truncarse con puntos suspensivos después de dos líneas, incluso si es extremadamente largo y ocupa varias líneas en pantalla.";
 
   return (
-    <Box sx={{ m: 4 }}>
-      {isMobile ? (
-        <>
-          <IconButton onClick={() => setDrawerOpen(true)}>
-            <FilterListIcon />
-          </IconButton>
-          <Drawer
-            anchor="right"
-            open={drawerOpen}
-            onClose={() => setDrawerOpen(false)}
-          >
-            <Box sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>
-              <IconButton onClick={() => setDrawerOpen(false)}>
-                <CloseIcon />
-              </IconButton>
-            </Box>
-            {renderFilters}
-          </Drawer>
-        </>
-      ) : (
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 2,
-            alignItems: "flex-start",
-          }}
-        >
-          {renderFilters}
-        </Box>
-      )}
-    </Box>
+    <div className="p-5 max-w-md border border-gray-300">
+      <h2
+        className="text-xl font-bold line-clamp-2 max-w-full"
+        title={longText}
+      >
+        {longText}
+      </h2>
+    </div>
   );
 }
 
-{
-  /* filtros (puedes usar Material UI si quieres) */
-}
-<Box sx={{ m: 4 }} className="flex justify-centerw-[100%]">
-  {isMobile ? (
-    <FilterListIcon sx={{ fontSize: 30, cursor: "pointer" }} />
-  ) : (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: {
-          xs: "column",
-          sm: "row",
-        },
-        flexWrap: "wrap",
-        // background: "purple",
-        gap: 2,
-        alignItems: "flex-start",
-        width: "fit-content",
-      }}
-    >
-      <FormControl>
-        <InputLabel id="status-label">Status</InputLabel>
-        <Select
-          labelId="status-label"
-          value={statusFilter}
-          label="Status"
-          sx={{ minWidth: 200, flex: 1 }}
-          onChange={(e) => setStatusFilter(e.target.value)}
-        >
-          <MenuItem value="">Todos</MenuItem>
-          <MenuItem value="working">Working</MenuItem>
-          <MenuItem value="idle">Idle</MenuItem>
-          <MenuItem value="error">Error</MenuItem>
-        </Select>
-      </FormControl>
-      <TextField
-        label="Filtrar por Técnico"
-        variant="outlined"
-        value={technicianFilter}
-        onChange={(e) => setTechnicianFilter(e.target.value)}
-        sx={{ minWidth: 200, flex: 1 }}
-      />
 
-      <TextField
-        label="Filtrar por Máquina"
-        variant="outlined"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        sx={{ minWidth: 200, flex: 1 }}
-      />
+import { Typography } from "@mui/material";
 
-      <Autocomplete
-        options={locationOptions}
-        value={locationFilter}
-        onChange={(_, newValue) => setLocationFilter(newValue || "")}
-        renderInput={(params) => (
-          <TextField {...params} label="Ubicación" variant="outlined" />
-        )}
-        sx={{ minWidth: 200, flex: 1 }}
-      />
-    </Box>
-  )}
-</Box>;
-
-const [sortBy, setSortBy] = useState("name"); // criterio por defecto
-const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+<Typography
+  id="machine-details-title"
+  variant="h5"
+  component="h2"
+  mb={3}
+  color="primary.main"
+  fontWeight="bold"
+  sx={{
+    maxWidth: 400,        // equivalente a max-w-md (~28rem, 448px)
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  }}
+>
+  {machine.name}
+</Typography>
 
 
+setMachines(prev =>
+  [...prev].sort((a, b) => a.name.localeCompare(b.name))
+);
 
 
-<FormControl sx={{ minWidth: 200 }}>
-  <InputLabel id="sort-by-label">Ordenar por</InputLabel>
-  <Select
-    labelId="sort-by-label"
-    value={sortBy}
-    label="Ordenar por"
-    onChange={(e) => setSortBy(e.target.value)}
-  >
-    <MenuItem value="temperature">Temperatura</MenuItem>
-    <MenuItem value="uptimeHours">Horas de uso</MenuItem>
-    <MenuItem value="lastMaintenance">Último mantenimiento</MenuItem>
-    <MenuItem value="energyConsumption">Consumo energético</MenuItem>
-    <MenuItem value="name">Nombre</MenuItem>
-  </Select>
-</FormControl>
+<!-- type SortOrder = "asc" | "desc";
 
+function sortBy<T>(
+  array: T[],
+  key: keyof T,
+  order: SortOrder = "asc"
+): T[] {
+  return [...array].sort((a, b) => {
+    const aVal = a[key];
+    const bVal = b[key];
 
+    // Null/undefined al final (asc) o al principio (desc)
+    if (aVal == null && bVal != null) return order === "asc" ? 1 : -1;
+    if (aVal != null && bVal == null) return order === "asc" ? -1 : 1;
+    if (aVal == null && bVal == null) return 0;
 
+    // String comparison
+    if (typeof aVal === "string" && typeof bVal === "string") {
+      return order === "asc"
+        ? aVal.localeCompare(bVal)
+        : bVal.localeCompare(aVal);
+    }
 
+    // Numeric or Date (timestamps or ISO strings)
+    const aNum = typeof aVal === "number" ? aVal : new Date(aVal as any).getTime();
+    const bNum = typeof bVal === "number" ? bVal : new Date(bVal as any).getTime();
 
+    return order === "asc" ? aNum - bNum : bNum - aNum;
+  });
+} -->
