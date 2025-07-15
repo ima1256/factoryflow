@@ -61,11 +61,13 @@ src/
 ---
 
 ## 📌 Cómo empezar
-  
+
+```bash
 git clone https://github.com/ima1256/factoryflow.git
 cd factoryflow
 npm install
 npm run dev
+```
 
 ---
 
@@ -86,5 +88,12 @@ Este proyecto muestra capacidad para:
 - Trabajar con herramientas modernas como Tailwind, MUI, Vite o TypeScript.
 
 - Enfocarte en productos robustos y escalables, alineados con los valores de Savvy: eficiencia, autonomía y sostenibilidad.
+
+---
+
+## 📜 Licencia
+
+Este proyecto está bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+
 
 
