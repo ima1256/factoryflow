@@ -42,17 +42,49 @@ src/
 ├── eventBus.ts       # Gestión de eventos entre componentes
 ```
 
+---
+
 ## ✨ Funcionalidades clave
 
 - Arquitectura moderna basada en React + Vite.
 
-Sistema de routing con react-router-dom.
+- Sistema de routing con react-router-dom.
 
-Gestión de eventos desacoplada vía EventBus (mitt).
+- Gestión de eventos desacoplada vía EventBus (mitt).
 
-UI consistente, accesible y responsive usando Tailwind + MUI.
+- UI consistente, accesible y responsive usando Tailwind + MUI.
 
-Conexión a backend con Axios y configuración por .env.
+- Conexión a backend con Axios y configuración por .env.
 
-Soporte para escalabilidad, ideal para entornos industriales.
+- Soporte para escalabilidad, ideal para entornos industriales.
+
+---
+
+## 📌 Cómo empezar
+  
+git clone https://github.com/ima1256/factoryflow.git
+cd factoryflow
+npm install
+npm run dev
+
+---
+
+## 👨‍💻 Sobre el autor
+
+Imanol Conde González – Desarrollador Full-Stack con enfoque en soluciones industriales, experiencia con Vue, Angular, React, Spring Boot, .NET y despliegue en entornos cloud. Con pasión por la innovación, las interfaces intuitivas y la mejora de procesos reales en planta.
+
+---
+
+## 🧭 Relevancia para Savvy Data Systems
+
+Este proyecto muestra capacidad para:
+
+- Desarrollar soluciones frontend modernas adaptadas al sector industrial.
+
+- Entender y aplicar buenas prácticas de arquitectura.
+
+- Trabajar con herramientas modernas como Tailwind, MUI, Vite o TypeScript.
+
+- Enfocarte en productos robustos y escalables, alineados con los valores de Savvy: eficiencia, autonomía y sostenibilidad.
+
 
