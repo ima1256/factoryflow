@@ -44,7 +44,7 @@ src/
 
 ## ✨ Funcionalidades clave
 
-Arquitectura moderna basada en React + Vite.
+- Arquitectura moderna basada en React + Vite.
 
 Sistema de routing con react-router-dom.
 
