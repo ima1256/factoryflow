@@ -31,6 +31,7 @@
 
 ## 📁 Estructura destacada del proyecto
 
+```plaintext
 src/
 ├── components/       # Componentes reutilizables
 ├── pages/            # Vistas o pantallas principales
@@ -39,4 +40,19 @@ src/
 ├── styles/           # Estilos globales y tailwind
 ├── types.ts          # Definiciones TypeScript
 ├── eventBus.ts       # Gestión de eventos entre componentes
+```
+
+## ✨ Funcionalidades clave
+
+Arquitectura moderna basada en React + Vite.
+
+Sistema de routing con react-router-dom.
+
+Gestión de eventos desacoplada vía EventBus (mitt).
+
+UI consistente, accesible y responsive usando Tailwind + MUI.
+
+Conexión a backend con Axios y configuración por .env.
+
+Soporte para escalabilidad, ideal para entornos industriales.
 
