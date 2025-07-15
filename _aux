@@ -1,90 +1,94 @@
-<div
-  className="{`inline-block"
-  px-3
-  py-1
-  rounded-full
-  text-sm
-  font-semibold
-  ${statusColor}
-  max-w-[150px]
-  overflow-hidden
-  whitespace-nowrap
-  text-ellipsis`}
+import React from "react";
+import { Modal, Box } from "@mui/material";
+
+export default function ShakeModal({ open, onClose, shake }) {
+  return (
+    <Modal open={open} onClose={onClose}>
+      <Box
+        className={shake ? "shake" : ""}
+        sx={{
+          width: 400,
+          margin: "100px auto",
+          backgroundColor: "white",
+          padding: 2,
+          borderRadius: 1,
+          outline: "none",
+        }}
+      >
+        <h2>Modal Title</h2>
+        <p>Contenido del modal</p>
+      </Box>
+    </Modal>
+  );
+}
+
+<Modal
+  open={open}
+  onClose={onClose}
+  closeAfterTransition
+  slots={{ backdrop: Backdrop }}
+  aria-labelledby="machine-details-title"
+  aria-describedby="machine-details-description"
+  slotProps={{
+    backdrop: {
+      timeout: 300,
+      style: { backgroundColor: "rgba(0, 0, 0, 0.4)" },
+    },
+  }}
 >
-  {machine.status.toUpperCase()}
-</div>
+  <Fade in={open} timeout={300}>
+    <Box
+      sx={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+      }}
+    >
+      <Box className={shake ? "shake" : ""} sx={style}>
+        {children}
+      </Box>
+    </Box>
+  </Fade>
+</Modal>;
 
-npm install -D @tailwindcss/line-clamp
 
-function Example() {
-  const longText =
-    "Esto es un texto muy largo que debería truncarse con puntos suspensivos después de dos líneas, incluso si es extremadamente largo y ocupa varias líneas en pantalla.";
+import React, { useState } from 'react';
+import ShakeModal from './ShakeModal';
+
+export default function ParentComponent() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalShake, setModalShake] = useState(false);
+
+  const triggerShake = () => {
+    setModalShake(true);
+    setTimeout(() => setModalShake(false), 500); // duración de la animación shake
+  };
 
   return (
-    <div className="p-5 max-w-md border border-gray-300">
-      <h2
-        className="text-xl font-bold line-clamp-2 max-w-full"
-        title={longText}
-      >
-        {longText}
-      </h2>
-    </div>
+    <>
+      <button onClick={() => setModalOpen(true)}>Abrir modal</button>
+      <button onClick={triggerShake}>Temblar modal</button>
+
+      <ShakeModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        shake={modalShake}
+      />
+    </>
   );
 }
 
 
-import { Typography } from "@mui/material";
+const handleModalClose = () => {
+  const hasMissingFields =
+    !localMachine.name || !localMachine.technician || !localMachine.location;
 
-<Typography
-  id="machine-details-title"
-  variant="h5"
-  component="h2"
-  mb={3}
-  color="primary.main"
-  fontWeight="bold"
-  sx={{
-    maxWidth: 400,        // equivalente a max-w-md (~28rem, 448px)
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-  }}
->
-  {machine.name}
-</Typography>
-
-
-setMachines(prev =>
-  [...prev].sort((a, b) => a.name.localeCompare(b.name))
-);
-
-
-<!-- type SortOrder = "asc" | "desc";
-
-function sortBy<T>(
-  array: T[],
-  key: keyof T,
-  order: SortOrder = "asc"
-): T[] {
-  return [...array].sort((a, b) => {
-    const aVal = a[key];
-    const bVal = b[key];
-
-    // Null/undefined al final (asc) o al principio (desc)
-    if (aVal == null && bVal != null) return order === "asc" ? 1 : -1;
-    if (aVal != null && bVal == null) return order === "asc" ? -1 : 1;
-    if (aVal == null && bVal == null) return 0;
-
-    // String comparison
-    if (typeof aVal === "string" && typeof bVal === "string") {
-      return order === "asc"
-        ? aVal.localeCompare(bVal)
-        : bVal.localeCompare(aVal);
-    }
-
-    // Numeric or Date (timestamps or ISO strings)
-    const aNum = typeof aVal === "number" ? aVal : new Date(aVal as any).getTime();
-    const bNum = typeof bVal === "number" ? bVal : new Date(bVal as any).getTime();
-
-    return order === "asc" ? aNum - bNum : bNum - aNum;
-  });
-} -->
+  if (hasMissingFields) {
+    setShake(true);
+    // Quitar el shake tras la animación
+    setTimeout(() => setShake(false), 500); // duración del shake
+  } else {
+    onClose(); // cierra el modal normalmente
+  }
+};

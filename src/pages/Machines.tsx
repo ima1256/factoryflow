@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import MachineCard from "../components/MachineCard";
 import { getMachines } from "../services/machineService";
-import type { Machine } from "../data/machines";
+import type { Machine, Technician } from "../data/machines";
 
 import FilterSection from "../components/FilterSection";
 
 import { Stack } from "@mui/material";
 import eventBus from "../../eventBus";
+import Loading from "../components/Loading";
 
 type SortOrder = "asc" | "desc";
 
@@ -46,6 +47,9 @@ export default function Machines() {
   const [technicianFilter, setTechnicianFilter] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
   const [locationOptions, setLocationOptions] = useState<string[]>([]);
+
+  const [technicianOptions, setTechnicianOptions] = useState<Technician[]>([]);
+
   const [searchTerm, setSearchTerm] = useState("");
 
   //sorting
@@ -65,7 +69,9 @@ export default function Machines() {
         console.error("Error al obtener las máquinas", err);
         setError("Error al cargar las máquinas");
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
       }
     };
     fetchMachines();
@@ -74,8 +80,22 @@ export default function Machines() {
   useEffect(() => {
     const locations = Array.from(
       new Set(machines.map((machine) => machine.location))
-    );
+    ).filter((loc) => loc !== null);
+
+    const technicianMap = new Map<String, Technician>();
+
+    machines.forEach((machine) => {
+      const tech = machine.technician;
+      if (tech?.email && tech.email.trim() !== "") {
+        technicianMap.set(tech.email, tech);
+      }
+    });
+
+    const technicians = Array.from(technicianMap.values());
+
     setLocationOptions(locations);
+
+    setTechnicianOptions(technicians);
   }, [machines]);
 
   useEffect(() => {
@@ -100,7 +120,7 @@ export default function Machines() {
     const matchesStatus = !statusFilter || machine.status === statusFilter;
     const matchesTechnician =
       !technicianFilter ||
-      machine.technician.name
+      machine.technician?.name
         .toLowerCase()
         .includes(technicianFilter.toLowerCase());
     const matchesSearch = machine.name
@@ -117,12 +137,30 @@ export default function Machines() {
 
   const sortedMachines = machineSort(filteredMachines, sortBy, sortDirection);
 
-  if (loading) return <p className="m-4">Cargando máquinas...</p>;
-  if (error) return <p className="m-4 text-red-600">{error}</p>;
+  if (loading)
+    return (
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
+        {/* <p className="m-4">Cargando máquinas...</p> */}
+        <Loading
+          styles={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      </div>
+    );
+  if (error)
+    return (
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
+        <p className="text-red-600">{error}</p>
+      </div>
+    );
 
   return (
-    <div className="ml-4 mr-4 mb-4">
-      <Stack sx={{ mb: 4, gap: 4, display: "flex", direction: "column" }}>
+    <div className="mx-4 gap-4">
+      <Stack sx={{ mb: 2 }}>
         <FilterSection
           statusFilter={statusFilter}
           setStatusFilter={setStatusFilter}
@@ -140,9 +178,14 @@ export default function Machines() {
         />
       </Stack>
 
-      <div className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="gap-4 mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {sortedMachines.map((machine) => (
-          <MachineCard key={machine.id} machine={machine} />
+          <MachineCard
+            key={machine.id}
+            machine={machine}
+            locationOptions={locationOptions}
+            technicianOptions={technicianOptions}
+          />
         ))}
       </div>
     </div>

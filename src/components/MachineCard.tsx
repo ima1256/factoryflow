@@ -1,11 +1,20 @@
-import type { Machine } from "../data/machines";
+import type { Machine, Technician } from "../data/machines";
 import { useState } from "react";
 import MachineDetailsModal from "./MachineDetailsModal";
 import EditMachine from "./EditMachine";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { IconButton } from "@mui/material";
+import MainButton from "./MainButton";
 
-export default function MachineCard({ machine }: { machine: Machine }) {
+export default function MachineCard({
+  machine,
+  locationOptions,
+  technicianOptions,
+}: {
+  machine: Machine;
+  locationOptions: string[];
+  technicianOptions: Technician[];
+}) {
   const [open, setOpen] = useState(false);
 
   const [editOpen, setEditOpen] = useState(false);
@@ -24,10 +33,10 @@ export default function MachineCard({ machine }: { machine: Machine }) {
 
   return (
     <>
-      <div className="relative bg-white shadow-lg rounded-xl p-5 space-y-3 hover:shadow-xl transition-shadow duration-300">
+      <div className=" relative bg-white shadow-lg rounded-xl p-5 space-y-3 hover:shadow-xl transition-shadow duration-300">
         <div className="max-w-[80%]">
           <h2
-            className="text-xl font-bold text-gray-900 line-clamp-2 break-words"
+            className="text-xl font-bold text-gray-900 truncate "
             title={machine.name}
           >
             {machine.name}
@@ -42,6 +51,8 @@ export default function MachineCard({ machine }: { machine: Machine }) {
             {longText}
           </h2>
         </div> */}
+
+        {/* break-words min-h-[3.5rem]  */}
 
         <IconButton
           onClick={() => setEditOpen(true)}
@@ -78,12 +89,10 @@ export default function MachineCard({ machine }: { machine: Machine }) {
         </div>
 
         {/* Añadimos botón de acción */}
-        <button
-          onClick={() => setOpen(true)}
-          className="cursor-pointer w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Ver detalles
-        </button>
+        <MainButton onClick={() => setOpen(true)}>Details</MainButton>
+        {/* <button className="cursor-pointer w-full p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+          Guardar
+        </button> */}
       </div>
 
       {/* Modal */}
@@ -98,6 +107,8 @@ export default function MachineCard({ machine }: { machine: Machine }) {
         machine={machine}
         onClose={() => setEditOpen(false)}
         open={editOpen}
+        locationOptions={locationOptions}
+        technicianOptions={technicianOptions}
       />
     </>
   );

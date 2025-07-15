@@ -18,6 +18,8 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { useState } from "react";
 
+// import MainButton from "./MainButton";
+
 interface FilterSectionProps {
   statusFilter: string;
   setStatusFilter: (value: string) => void;
@@ -84,14 +86,14 @@ export default function FilterSection({
       </FormControl>
 
       <TextField
-        label="Filtrar por Técnico"
+        label="Technician"
         variant="outlined"
         value={technicianFilter}
         onChange={(e) => setTechnicianFilter(e.target.value)}
       />
 
       <TextField
-        label="Filtrar por Máquina"
+        label="Name"
         variant="outlined"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
@@ -102,40 +104,42 @@ export default function FilterSection({
         value={locationFilter}
         onChange={(_, newValue) => setLocationFilter(newValue || "")}
         renderInput={(params) => (
-          <TextField {...params} label="Ubicación" variant="outlined" />
+          <TextField {...params} label="Location" variant="outlined" />
         )}
       />
 
       <FormControl>
-        <InputLabel id="sort-by-label">Ordenar por</InputLabel>
+        <InputLabel id="sort-by-label">Order by</InputLabel>
         <Select
           labelId="sort-by-label"
           value={sortBy}
-          label="Ordenar por"
+          label="Order by"
           sx={{ minWidth: 200 }}
           onChange={(e) => setSortBy(e.target.value)}
         >
-          <MenuItem value="temperature">Temperatura</MenuItem>
-          <MenuItem value="uptimeHours">Horas de uso</MenuItem>
-          <MenuItem value="lastMaintenance">Último mantenimiento</MenuItem>
-          <MenuItem value="energyConsumption">Consumo energético</MenuItem>
-          <MenuItem value="name">Nombre</MenuItem>
+          <MenuItem value="temperature">Temperature</MenuItem>
+          <MenuItem value="uptimeHours">Uptime hours</MenuItem>
+          <MenuItem value="lastMaintenance">Last maintenance</MenuItem>
+          <MenuItem value="energyConsumption">Energy consumption</MenuItem>
+          <MenuItem value="name">Name</MenuItem>
         </Select>
       </FormControl>
 
       <FormControl>
-        <InputLabel id="sort-dir-label">Ordernar</InputLabel>
+        <InputLabel id="sort-dir-label">Direction</InputLabel>
         <Select
           labelId="sort-dir-label"
           value={sortDirection}
-          label="Dirección"
+          label="Direction"
           sx={{ minWidth: 200 }}
           onChange={(e) => setSortDirection(e.target.value)}
         >
-          <MenuItem value="asc">Ascendente</MenuItem>
-          <MenuItem value="desc">Descendente</MenuItem>
+          <MenuItem value="asc">Ascent</MenuItem>
+          <MenuItem value="desc">Descent</MenuItem>
         </Select>
       </FormControl>
+
+      {/* <MainButton /> */}
 
       {/* <Button
         variant="contained"
