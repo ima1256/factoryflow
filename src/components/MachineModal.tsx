@@ -7,6 +7,9 @@ const style = {
   // top: "50%",
   // left: "50%",
   // transform: "translate(-50%, -50%)",
+  // position: 'relative',
+
+  maxHeight: "80vh",
   bgcolor: "background.paper",
   borderRadius: 2,
   boxShadow: 24,
@@ -55,7 +58,6 @@ export default function MachineModal({
             transform: "translate(-50%, -50%)",
             maxWidth: 600,
             width: "90%",
-            maxHeight: "80vh",
           }}
         >
           <Box className={shake ? "shake" : ""} sx={style}>
