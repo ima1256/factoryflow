@@ -12,3 +12,5 @@ export const useMainBackground = (direction = "135deg") => {
     background: color,
   };
 };
+
+
