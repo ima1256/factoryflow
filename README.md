@@ -77,7 +77,7 @@ Imanol Conde González – Desarrollador Full-Stack con enfoque en soluciones in
 
 ---
 
-## 🧭 Relevancia para Savvy Data Systems
+## 🧭 Relevancia para Una Empresa Del Sector Industrial 
 
 Este proyecto muestra capacidad para:
 
