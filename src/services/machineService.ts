@@ -2,8 +2,8 @@ import axios from "axios";
 import type { Machine } from "../data/machines";
 
 // Puedes guardar la URL base en una variable para facilitar su mantenimiento
-const API_BASE_URL = "https://factoryflow-backend.onrender.com/api"; // ajusta si cambió
-//const API_BASE_URL = "http://localhost:3000/api"; // ajusta si cambió
+//const API_BASE_URL = "https://factoryflow-backend.onrender.com/api"; // ajusta si cambió
+const API_BASE_URL = "http://localhost:3000/api"; // ajusta si cambió
 
 export const getMachines = async () => {
   try {
@@ -27,13 +27,10 @@ export const getMachine = async (id: string) => {
 
 export const updateMachine = async (machine: Machine) => {
   try {
-    console.log(machine.id);
-
     const response = await axios.put(
       `${API_BASE_URL}/machines/${machine.id}`,
       machine
     );
-
     return response.data;
   } catch (error) {
     console.error("Error al actualizar la maquina");

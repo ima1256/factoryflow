@@ -63,15 +63,6 @@ export default function MachineDetailsModal({ open, machine, onClose }: Props) {
           </Typography>
         </Tooltip>
 
-        {/* <div className="max-w-[70%]">
-        <h2
-          className="text-xl font-bold text-gray-900 line-clamp-2 break-words"
-          title={machine.name}
-        >
-          {machine.name}
-        </h2>
-      </div> */}
-
         <Stack spacing={1}>
           <Detail title="Status" content={machine.status.toUpperCase()} />
           <Detail title="Temperature" content={`${machine.temperature}°C`} />
@@ -92,20 +83,23 @@ export default function MachineDetailsModal({ open, machine, onClose }: Props) {
           )}
         </Stack>
 
-        <Box mt={3}>
-          <Typography variant="subtitle1" fontWeight="600" mb={1}>
-            Maintenance history:
-          </Typography>
-          <Box component="ul" sx={{ pl: 3, mb: 0 }}>
-            {machine.maintenanceHistory.map((m, i) => (
-              <li key={i}>
-                <Typography component="span">
-                  <strong>{m.date}:</strong> {m.description}
-                </Typography>
-              </li>
-            ))}
-          </Box>
-        </Box>
+        {machine.maintenanceHistory &&
+          machine.maintenanceHistory.length > 0 && (
+            <Box mt={3}>
+              <Typography variant="subtitle1" fontWeight="600" mb={1}>
+                Maintenance history:
+              </Typography>
+              <Box component="ul" sx={{ pl: 3, mb: 0 }}>
+                {machine.maintenanceHistory.map((m, i) => (
+                  <li key={i}>
+                    <Typography component="span">
+                      <strong>{m.date}:</strong> {m.description}
+                    </Typography>
+                  </li>
+                ))}
+              </Box>
+            </Box>
+          )}
 
         {machine.errorLogs && machine.errorLogs.length > 0 && (
           <Box mt={3}>

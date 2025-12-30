@@ -10,6 +10,7 @@ import {
   useMediaQuery,
   IconButton,
   Drawer,
+  Collapse,
 } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import type { Machine } from "../data/machines";
@@ -151,6 +152,10 @@ export default function FilterSection({
     </Box>
   );
 
+  const [open, setOpen] = useState(true);
+
+  const handleToggle = () => setOpen(!open);
+
   return (
     <Box>
       {isTablet ? (
@@ -172,15 +177,22 @@ export default function FilterSection({
           </Drawer>
         </>
       ) : (
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 2,
-            alignItems: "flex-start",
-          }}
-        >
-          {renderFilters}
+        <Box>
+          <IconButton onClick={handleToggle}>
+            <FilterListIcon sx={{ fontSize: 40 }} />
+          </IconButton>
+          <Collapse in={open}>
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 2,
+                alignItems: "flex-start",
+              }}
+            >
+              {renderFilters}
+            </Box>
+          </Collapse>
         </Box>
       )}
     </Box>

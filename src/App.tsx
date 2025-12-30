@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Machines from "./pages/Machines";
 // import Navbar from "./components/Navbar";
 import { Box } from "@mui/material";
-
 import Logo from "./components/Logo";
 
 // dotenv.config()

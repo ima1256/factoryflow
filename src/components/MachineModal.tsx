@@ -1,14 +1,10 @@
 import { Modal, Box, IconButton, Fade, Backdrop } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import type { ReactNode } from "react";
+import { useEffect, useRef } from "react";
 
 const style = {
-  // position: "absolute" as const,
-  // top: "50%",
-  // left: "50%",
-  // transform: "translate(-50%, -50%)",
-  // position: 'relative',
-
+  height: "80vh",
   maxHeight: "80vh",
   bgcolor: "background.paper",
   borderRadius: 2,
@@ -33,6 +29,15 @@ export default function MachineModal({
   children,
   shake = false,
 }: Props) {
+  // dentro de MachineModal
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (open && scrollRef.current) {
+      scrollRef.current.focus(); // ponemos el foco en el contenedor scrollable
+    }
+  }, [open]);
+
   return (
     <Modal
       open={open}
@@ -60,7 +65,12 @@ export default function MachineModal({
             width: "90%",
           }}
         >
-          <Box className={shake ? "shake" : ""} sx={style}>
+          <Box
+            ref={scrollRef}
+            tabIndex={-1} // necesario para que pueda recibir foco
+            className={shake ? "shake" : ""}
+            sx={style}
+          >
             <IconButton
               onClick={() => onClose("X")}
               aria-label="Cerrar detalles"
@@ -74,19 +84,4 @@ export default function MachineModal({
       </Fade>
     </Modal>
   );
-}
-
-{
-  /* <Box
-          sx={{
-            position: "sticky",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 40,
-            pointerEvents: "none",
-            background: "linear-gradient(to top, white, transparent)",
-            zIndex: 1,
-          }}
-        /> */
 }
